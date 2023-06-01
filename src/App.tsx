@@ -1,25 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Navbar from "./components/Navbar";
+import StudentHeader from "./components/StudentHeader";
+import styled from "styled-components";
+import SideBar from "./components/SideBar";
+import StudentPage from "./page/StudentPage";
 
 function App() {
+  const Container = styled.div`
+    display: flex;
+    /* width: 1400px; */
+  `;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <SideBar />
+      <StudentPage />
+    </Container>
   );
 }
 
