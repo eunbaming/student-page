@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import StudentHeader from "../components/StudentHeader";
 import styled from "styled-components";
 import FilterAndSearch from "../components/FilterAndSearch";
+import NoStudent from "../components/NoStudent";
 
 const StudentPage = () => {
   const Container = styled.div`
@@ -15,6 +16,7 @@ const StudentPage = () => {
       <Navbar />
       <StudentHeader />
       <FilterAndSearch />
+      <NoStudent />
     </Container>
   );
 };
