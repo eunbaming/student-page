@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
+import BlankIMG from "../images/blank-profile-picture.webp";
 
 const Container = styled.div`
   position: absolute;
@@ -31,8 +32,10 @@ const LeftArea = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin: 20px;
+  align-items: center;
+  margin: 0 20px;
 `;
+const NameDiv = styled.div``;
 const InfoLabel = styled.span`
   color: #8a8a8a;
   font-size: 14px;
@@ -43,11 +46,23 @@ const InfoInput = styled.input`
   height: 42px;
   border: 1px solid #a7a7a7;
   margin-bottom: 20px;
+  padding: 10px;
+  box-sizing: border-box;
 `;
 const ClassGenderInput = styled.div`
   display: flex;
 `;
-const StudentImg = styled.img``;
+const StudentImgContainer = styled.div``;
+const StudentImg = styled.img`
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+`;
+const StudentImgInput = styled.input`
+  display: none;
+`;
 const RightArea = styled.div`
   flex: 1;
   display: flex;
@@ -78,15 +93,53 @@ const AddButton = styled.button`
 `;
 
 const StudentAddModal = () => {
+  const imgInputRef = useRef<HTMLInputElement | null>(null);
+  const [imageFile, setImageFile] = useState<any>();
+  const [imageUrl, setImageUrl] = useState<any>(BlankIMG);
+
+  const onClickImg = () => {
+    imgInputRef.current?.click();
+  };
+
+  const ImageOnload = (event: any) => {
+    if (!event.target.files) {
+      return;
+    }
+    if (event.target.files[0]) {
+      setImageFile(event.target.files[0]);
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      return new Promise<void>((resolve) => {
+        reader.onload = () => {
+          setImageUrl(reader.result || null);
+          resolve();
+        };
+      });
+    }
+  };
+
   return (
     <Container>
       <Modal>
         <AddStudentsH2>Add Students</AddStudentsH2>
         <StudentAddForm>
           <LeftArea>
-            <InfoLabel>Name</InfoLabel>
-            <InfoInput />
-            <StudentImg />
+            <NameDiv>
+              <InfoLabel>Name</InfoLabel>
+              <InfoInput />
+            </NameDiv>
+            <StudentImgContainer>
+              <StudentImg src={imageUrl} onClick={onClickImg} />
+              <StudentImgInput
+                type="file"
+                accept="images/*"
+                ref={imgInputRef}
+                onChange={ImageOnload}
+              />
+            </StudentImgContainer>
           </LeftArea>
           <RightArea>
             <ClassGenderInput>
